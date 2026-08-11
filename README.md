@@ -1,0 +1,2 @@
+# PinkClub-Monthly
+FANZAの見放題ch・見放題chデラックス・VRchに対応した月額動画アフィリエイトサイト用CMS
