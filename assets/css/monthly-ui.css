@@ -1,0 +1,58 @@
+:root {
+  --pcm-pink:#ff4da6;
+  --pcm-pink-dark:#d63384;
+  --pcm-blue:#1e73be;
+  --pcm-soft:#fff5fb;
+  --pcm-border:#e9d6e0;
+  --pcm-ink:#20242e;
+}
+
+.monthly-hero {
+  margin: 0 0 20px;
+  padding: 24px;
+  border: 1px solid var(--pcm-border);
+  border-radius: 12px;
+  background: linear-gradient(135deg,#fff 0%,#fff5fb 60%,#f6f9ff 100%);
+  box-shadow: 0 5px 18px rgba(0,0,0,.05);
+}
+.monthly-hero__eyebrow { margin:0 0 6px;color:var(--pcm-pink-dark);font-weight:700;font-size:13px; }
+.monthly-hero h1 { margin:0 0 10px;font-size:clamp(25px,3.2vw,38px);line-height:1.25;color:var(--pcm-ink); }
+.monthly-hero p { margin:0;color:#5a5f69;line-height:1.8; }
+.monthly-channel-grid { display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:0 0 26px; }
+.monthly-channel-card { display:block;padding:16px;border:1px solid #dfe4ec;border-radius:9px;background:#fff;color:var(--pcm-ink);text-decoration:none;box-shadow:0 3px 12px rgba(0,0,0,.04); }
+.monthly-channel-card:hover { border-color:var(--pcm-pink);background:var(--pcm-soft); }
+.monthly-channel-card strong { display:block;margin-bottom:5px;color:var(--pcm-pink-dark);font-size:17px; }
+.monthly-channel-card span { color:#666;font-size:13px;line-height:1.55; }
+.monthly-badge { display:inline-flex;padding:4px 9px;border:1px solid #ffc4df;border-radius:999px;background:var(--pcm-soft);color:var(--pcm-pink-dark);font-size:12px;font-weight:700; }
+.monthly-note { margin:14px 0;padding:12px 14px;border-left:4px solid var(--pcm-pink);background:var(--pcm-soft);line-height:1.7;color:#555; }
+.monthly-grid { display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px; }
+.monthly-work-card { overflow:hidden;border:1px solid #ddd;border-radius:8px;background:#fff;box-shadow:0 3px 12px rgba(0,0,0,.04); }
+.monthly-work-card__image { display:block;aspect-ratio:2/3;background:#f2f2f2;overflow:hidden; }
+.monthly-work-card__image img { width:100%;height:100%;object-fit:cover;display:block; }
+.monthly-work-card__body { padding:12px; }
+.monthly-work-card__title { margin:8px 0 10px;font-size:14px;line-height:1.55;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden; }
+.monthly-work-card__title a { color:#222;text-decoration:none; }
+.monthly-work-card__actions { display:flex;gap:8px;flex-wrap:wrap; }
+.monthly-cta { display:inline-flex;align-items:center;justify-content:center;padding:9px 13px;border-radius:6px;background:var(--pcm-pink);color:#fff!important;text-decoration:none;font-weight:700; }
+.monthly-cta:hover { background:var(--pcm-pink-dark); }
+.monthly-section-title { margin:26px 0 12px;padding-left:10px;border-left:5px solid var(--pcm-pink);font-size:22px; }
+
+/* FLに近い、明るく整理されたカード・ナビの見え方へ寄せる */
+.site-nav { border-top:1px solid #e5e5e5;border-bottom:1px solid #e5e5e5;background:#fff; }
+.site-nav a { font-weight:700; }
+.site-nav a.is-active,.site-nav a:hover { color:var(--pcm-pink-dark); }
+.card,.rail-card { border-color:#ddd;box-shadow:0 2px 10px rgba(0,0,0,.035); }
+.sample-button--enabled { border-color:var(--pcm-pink)!important;color:var(--pcm-pink-dark)!important;background:#fff!important; }
+.sample-button--enabled:hover { background:var(--pcm-soft)!important; }
+.pcf-btn { background:var(--pcm-pink)!important;border-color:var(--pcm-pink)!important; }
+
+body.pcm-monthly-item .pcf-btn[href] { font-size:0!important; }
+body.pcm-monthly-item .pcf-btn[href]::after { content:'この作品が見放題のチャンネルを見る';font-size:18px; }
+body.pcm-monthly-item .pcf-item-title::after { content:'月額見放題対象';display:inline-block;margin-left:8px;padding:3px 8px;border-radius:999px;background:var(--pcm-soft);color:var(--pcm-pink-dark);font-size:12px;vertical-align:middle; }
+
+@media (max-width:1000px){ .monthly-grid{grid-template-columns:repeat(3,minmax(0,1fr));} }
+@media (max-width:760px){
+  .monthly-channel-grid{grid-template-columns:1fr;}
+  .monthly-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;}
+  .monthly-hero{padding:18px;}
+}
