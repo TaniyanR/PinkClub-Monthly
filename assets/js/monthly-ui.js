@@ -30,13 +30,17 @@
     wrapper.innerHTML = `
       <section class="monthly-hero">
         <p class="monthly-hero__eyebrow">PinkClub Monthly</p>
-        <h1>月額見放題から、好きな作品を探す</h1>
-        <p>1本ずつ購入するサイトではありません。作品・女優・ジャンルから探して、気になる作品が見られる月額チャンネルへ進めます。</p>
+        <h1>月額動画には3つの見放題サービスがあります</h1>
+        <p>「見放題ch」「見放題ch デラックス」「VRch」の3種類です。まず違いを知って、そのあとに<strong>自分はどれに入るか</strong>を作品から選びましょう。</p>
+      </section>
+      <section class="monthly-choice">
+        <h2>では、どれに入りますか？</h2>
+        <p>名前だけで決めるのではなく、実際に見たい作品・女優・ジャンルが多いサービスを選ぶのがおすすめです。</p>
       </section>
       <nav class="monthly-channel-grid" aria-label="月額見放題チャンネル">
-        <a class="monthly-channel-card" href="${publicUrl('monthly.php?channel=standard')}"><strong>見放題ch</strong><span>定番の見放題作品から探す</span></a>
-        <a class="monthly-channel-card" href="${publicUrl('monthly.php?channel=deluxe')}"><strong>見放題ch デラックス</strong><span>デラックス対象作品から探す</span></a>
-        <a class="monthly-channel-card" href="${publicUrl('monthly.php?channel=vr')}"><strong>VRch</strong><span>VRの見放題作品から探す</span></a>
+        <a class="monthly-channel-card" href="${publicUrl('monthly.php?channel=standard')}"><strong>見放題ch</strong><span>定番の見放題作品を見ながら選ぶ</span></a>
+        <a class="monthly-channel-card" href="${publicUrl('monthly.php?channel=deluxe')}"><strong>見放題ch デラックス</strong><span>デラックス対象作品を見ながら選ぶ</span></a>
+        <a class="monthly-channel-card" href="${publicUrl('monthly.php?channel=vr')}"><strong>VRch</strong><span>VR作品を中心に選ぶ</span></a>
       </nav>`;
     target.prepend(wrapper);
   };
@@ -49,7 +53,7 @@
     if (body && !body.querySelector('.pcm-monthly-explainer')) {
       const note = document.createElement('div');
       note.className = 'monthly-note pcm-monthly-explainer';
-      note.textContent = 'このサイトは月額見放題作品を探すためのサイトです。料金・キャンペーン・現在の見放題対象状況はリンク先で最終確認してください。';
+      note.textContent = 'このサイトは月額見放題作品を探すためのサイトです。料金・キャンペーン・現在の対象状況はリンク先で最終確認してください。';
       body.prepend(note);
     }
 
@@ -61,17 +65,9 @@
     });
   };
 
-  const renameSaleLanguage = () => {
-    document.querySelectorAll('input[placeholder="商品検索"]').forEach((input) => {
-      input.placeholder = '見放題作品を検索';
-      input.setAttribute('aria-label', '見放題作品を検索');
-    });
-  };
-
   const run = () => {
     injectHomeIntro();
     adaptItemDetail();
-    renameSaleLanguage();
   };
 
   if (document.readyState === 'loading') {
