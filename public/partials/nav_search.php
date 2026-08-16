@@ -11,7 +11,8 @@ $searchQuery = trim((string)($_GET['q'] ?? ''));
 
 $navItems = [
     ['href' => public_url(''), 'label' => 'TOP'],
-    ['href' => public_url('items.php'), 'label' => '商品一覧'],
+    ['href' => public_url('monthly.php'), 'label' => '月額見放題'],
+    ['href' => public_url('items.php'), 'label' => '見放題作品'],
     ['href' => public_url('actresses.php'), 'label' => '女優一覧'],
     ['href' => public_url('genres.php'), 'label' => 'ジャンル一覧'],
     ['href' => public_url('makers.php'), 'label' => 'メーカー一覧'],
@@ -66,7 +67,7 @@ try {
             <?php endforeach; ?>
         </div>
         <form class="site-mobile-menu__search" method="get" action="<?= e(public_url('search.php')) ?>">
-            <input class="site-search__input" type="search" name="q" value="<?= e($searchQuery) ?>" placeholder="商品検索" aria-label="商品検索">
+            <input class="site-search__input" type="search" name="q" value="<?= e($searchQuery) ?>" placeholder="見放題作品を検索" aria-label="見放題作品を検索">
             <button class="site-search__button" type="submit">検索</button>
         </form>
     </div>
@@ -78,7 +79,14 @@ try {
         <a class="<?= $isActive ? 'is-active' : '' ?>" href="<?= e($item['href']) ?>"><?= e($item['label']) ?></a>
     <?php endforeach; ?>
     <form class="site-search" method="get" action="<?= e(public_url('search.php')) ?>">
-        <input class="site-search__input" type="search" name="q" value="<?= e($searchQuery) ?>" placeholder="商品検索" aria-label="商品検索">
+        <input class="site-search__input" type="search" name="q" value="<?= e($searchQuery) ?>" placeholder="見放題作品を検索" aria-label="見放題作品を検索">
         <button class="site-search__button" type="submit">検索</button>
     </form>
 </nav>
+<script>
+window.PinkClubMonthlyConfig = {
+  baseUrl: <?= json_encode(rtrim((string)BASE_URL, '/'), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?>,
+  cssUrl: <?= json_encode(asset_url('css/monthly-ui.css'), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?>
+};
+</script>
+<script src="<?= e(asset_url('js/monthly-ui.js')) ?>" defer></script>
