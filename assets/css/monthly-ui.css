@@ -51,8 +51,11 @@
 .monthly-sidebar-block .sidebar-links li+li{border-top:1px solid #eee}
 .monthly-sidebar-block .sidebar-links a{display:block;padding:7px 3px;text-decoration:none}
 
-/* PinkClub-FLに近い、明るく整理されたカード・ナビの見え方 */
-.site-nav{border-top:1px solid #e5e5e5;border-bottom:1px solid #e5e5e5;background:#fff}
+/* Monthlyではランキング表示を使用しない。既存ページに残る互換マークアップも描画しない。 */
+#access-ranking{display:none!important}
+
+/* ヘッダーとナビを一体化し、白い横ラインを出さない。 */
+.site-nav{border:0!important;background:#000!important}
 .site-nav a{font-weight:700}
 .site-nav a.is-active,.site-nav a:hover{color:var(--pcm-pink-dark)}
 .card,.rail-card{border-color:#ddd;box-shadow:0 2px 10px rgba(0,0,0,.035)}
