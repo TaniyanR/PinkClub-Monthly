@@ -37,7 +37,7 @@
 .monthly-cta:hover { background:var(--pcm-pink-dark); }
 .monthly-section-title { margin:26px 0 12px;padding-left:10px;border-left:5px solid var(--pcm-pink);font-size:22px; }
 
-/* FLに近い、明るく整理されたカード・ナビの見え方へ寄せる */
+/* PinkClub-FLに近い、明るく整理されたカード・ナビの見え方へ寄せる */
 .site-nav { border-top:1px solid #e5e5e5;border-bottom:1px solid #e5e5e5;background:#fff; }
 .site-nav a { font-weight:700; }
 .site-nav a.is-active,.site-nav a:hover { color:var(--pcm-pink-dark); }
@@ -45,9 +45,6 @@
 .sample-button--enabled { border-color:var(--pcm-pink)!important;color:var(--pcm-pink-dark)!important;background:#fff!important; }
 .sample-button--enabled:hover { background:var(--pcm-soft)!important; }
 .pcf-btn { background:var(--pcm-pink)!important;border-color:var(--pcm-pink)!important; }
-
-body.pcm-monthly-item .pcf-btn[href] { font-size:0!important; }
-body.pcm-monthly-item .pcf-btn[href]::after { content:'この作品が見放題のチャンネルを見る';font-size:18px; }
 body.pcm-monthly-item .pcf-item-title::after { content:'月額見放題対象';display:inline-block;margin-left:8px;padding:3px 8px;border-radius:999px;background:var(--pcm-soft);color:var(--pcm-pink-dark);font-size:12px;vertical-align:middle; }
 
 @media (max-width:1000px){ .monthly-grid{grid-template-columns:repeat(3,minmax(0,1fr));} }
