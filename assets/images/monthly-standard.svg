@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="360" viewBox="0 0 640 360" role="img" aria-labelledby="title desc">
+  <title id="title">見放題ch</title><desc id="desc">見放題ch向けのPinkClub Monthlyオリジナル比較ビジュアル</desc>
+  <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#effff3"/><stop offset="1" stop-color="#ffffff"/></linearGradient></defs>
+  <rect width="640" height="360" rx="28" fill="url(#g)"/>
+  <circle cx="96" cy="92" r="46" fill="#32b44a" opacity=".12"/><circle cx="96" cy="92" r="31" fill="#32b44a"/>
+  <path d="M82 92l10 10 20-24" fill="none" stroke="#fff" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="165" y="102" font-size="44" font-weight="700" fill="#21953a" font-family="Arial,'Noto Sans JP',sans-serif">見放題ch</text>
+  <text x="58" y="172" font-size="24" font-weight="700" fill="#222" font-family="Arial,'Noto Sans JP',sans-serif">迷ったら、まずはこれ</text>
+  <text x="58" y="218" font-size="20" fill="#4f5c52" font-family="Arial,'Noto Sans JP',sans-serif">多彩なジャンルを幅広く楽しみたい人向け</text>
+  <rect x="58" y="254" width="240" height="54" rx="27" fill="#32b44a"/>
+  <text x="178" y="289" text-anchor="middle" font-size="22" font-weight="700" fill="#fff" font-family="Arial,'Noto Sans JP',sans-serif">スタンダード</text>
+</svg>
