@@ -7,7 +7,8 @@
   --pcm-ink:#20242e;
 }
 
-.monthly-hero {
+.monthly-hero,
+.monthly-home-intro {
   margin:0 0 20px;
   padding:24px;
   border:1px solid var(--pcm-border);
@@ -16,43 +17,55 @@
   box-shadow:0 5px 18px rgba(0,0,0,.05);
 }
 .monthly-hero__eyebrow{margin:0 0 6px;color:var(--pcm-pink-dark);font-weight:700;font-size:13px}
-.monthly-hero h1{margin:0 0 10px;font-size:clamp(25px,3.2vw,38px);line-height:1.25;color:var(--pcm-ink)}
-.monthly-hero p{margin:0;color:#5a5f69;line-height:1.8}
-.monthly-choice{margin:0 0 14px;padding:4px 2px}
-.monthly-choice h2{margin:0 0 6px;font-size:24px}
-.monthly-choice p{margin:0;color:#666;line-height:1.7}
-.monthly-channel-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:0 0 26px}
-.monthly-channel-card{display:block;padding:16px;border:1px solid #dfe4ec;border-radius:9px;background:#fff;color:var(--pcm-ink);text-decoration:none;box-shadow:0 3px 12px rgba(0,0,0,.04)}
-.monthly-channel-card:hover{border-color:var(--pcm-pink);background:var(--pcm-soft)}
-.monthly-channel-card strong{display:block;margin-bottom:5px;color:var(--pcm-pink-dark);font-size:17px}
-.monthly-channel-card span{color:#666;font-size:13px;line-height:1.55}
-.monthly-badge{display:inline-flex;padding:4px 9px;border:1px solid #ffc4df;border-radius:999px;background:var(--pcm-soft);color:var(--pcm-pink-dark);font-size:12px;font-weight:700}
+.monthly-hero h1,.monthly-home-intro h1{margin:0 0 10px;font-size:clamp(25px,3.2vw,38px);line-height:1.25;color:var(--pcm-ink)}
+.monthly-hero p,.monthly-home-intro p{margin:0;color:#5a5f69;line-height:1.8}
 .monthly-note{margin:14px 0;padding:12px 14px;border-left:4px solid var(--pcm-pink);background:var(--pcm-soft);line-height:1.7;color:#555}
-.monthly-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
-.monthly-work-card{overflow:hidden;border:1px solid #ddd;border-radius:8px;background:#fff;box-shadow:0 3px 12px rgba(0,0,0,.04)}
-.monthly-work-card__image{display:block;aspect-ratio:2/3;background:#f2f2f2;overflow:hidden}
-.monthly-work-card__image img{width:100%;height:100%;object-fit:contain;display:block;background:#fff}
-.monthly-work-card__noimage{display:flex;width:100%;height:100%;align-items:center;justify-content:center;color:#999}
-.monthly-work-card__body{padding:12px}
-.monthly-work-card__title{margin:8px 0 10px;font-size:14px;line-height:1.55;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
-.monthly-work-card__title a{color:#222;text-decoration:none}
-.monthly-release-date{margin:0 0 10px;padding:8px;border:1px solid #bbb;border-radius:5px;text-align:center;font-size:13px;font-weight:700}
-.monthly-work-card__actions{display:flex;gap:8px;flex-wrap:wrap}
-.monthly-work-card__actions--samples{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));margin-bottom:10px}
-.monthly-sample-button{display:flex;align-items:center;justify-content:center;min-height:36px;padding:7px 8px;border:1px solid var(--pcm-pink);border-radius:5px;background:#fff;color:var(--pcm-pink-dark);font-size:12px;font-weight:700;text-decoration:none;text-align:center}
-.monthly-sample-button:hover{background:var(--pcm-soft)}
-.monthly-sample-button.is-disabled{border-color:#ddd;color:#aaa;background:#f7f7f7}
-.monthly-cta{display:inline-flex;align-items:center;justify-content:center;padding:9px 13px;border-radius:6px;background:var(--pcm-pink);color:#fff!important;text-decoration:none;font-weight:700}
-.monthly-cta:hover{background:var(--pcm-pink-dark)}
-.monthly-cta--detail{width:100%;box-sizing:border-box}
 .monthly-section-title{margin:26px 0 12px;padding-left:10px;border-left:5px solid var(--pcm-pink);font-size:22px}
 .monthly-sidebar-title{margin:0 0 10px;padding-bottom:7px;border-bottom:2px solid var(--pcm-pink);font-size:16px}
 .monthly-sidebar-block .sidebar-links{margin:0;padding:0;list-style:none}
 .monthly-sidebar-block .sidebar-links li+li{border-top:1px solid #eee}
 .monthly-sidebar-block .sidebar-links a{display:block;padding:7px 3px;text-decoration:none}
 
-/* PinkClub-FLに近い、明るく整理されたカード・ナビの見え方 */
-.site-nav{border-top:1px solid #e5e5e5;border-bottom:1px solid #e5e5e5;background:#fff}
+/* TOP: 3プラン比較 */
+.monthly-plan-comparison{margin:0 0 28px}
+.monthly-plan-comparison__heading{margin:0 0 14px}
+.monthly-plan-comparison__heading h2{margin:0 0 6px;font-size:26px;line-height:1.35}
+.monthly-plan-comparison__heading p{margin:0;color:#666;line-height:1.7}
+.monthly-plan-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.monthly-plan-card{overflow:hidden;border:2px solid #ddd;border-radius:12px;background:#fff;box-shadow:0 5px 18px rgba(0,0,0,.05)}
+.monthly-plan-card--standard{border-color:#32b44a}
+.monthly-plan-card--deluxe{border-color:#ef2b2d}
+.monthly-plan-card--vr{border-color:#c22be0}
+.monthly-plan-card__visual{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;background:#fff}
+.monthly-plan-card__body{padding:18px}
+.monthly-plan-card__body h3{margin:0 0 8px;font-size:23px;line-height:1.35}
+.monthly-plan-card--standard h3,.monthly-plan-card--standard .monthly-plan-card__stats dd{color:#21953a}
+.monthly-plan-card--deluxe h3,.monthly-plan-card--deluxe .monthly-plan-card__stats dd{color:#e21d22}
+.monthly-plan-card--vr h3,.monthly-plan-card--vr .monthly-plan-card__stats dd{color:#b71bd6}
+.monthly-plan-card__price{margin:0 0 10px;font-size:24px;font-weight:800;color:#111}
+.monthly-plan-card__catch{margin:0 0 10px;padding:8px 10px;border-radius:6px;background:#f6f6f6;font-weight:800;text-align:center}
+.monthly-plan-card__body>p{margin:0 0 14px;line-height:1.7;color:#555}
+.monthly-plan-card__stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 0 14px}
+.monthly-plan-card__stats div{padding:10px;border:1px solid #e4e4e4;border-radius:8px;text-align:center;background:#fafafa}
+.monthly-plan-card__stats dt{margin:0 0 4px;font-size:12px;font-weight:700;color:#666}
+.monthly-plan-card__stats dd{margin:0;font-size:17px;font-weight:800}
+.monthly-plan-card__points{margin:0 0 16px;padding-left:20px;line-height:1.7}
+.monthly-plan-card__cta{display:flex;align-items:center;justify-content:center;min-height:46px;padding:10px 14px;border-radius:999px;background:#169bd5;color:#fff!important;font-weight:800;text-decoration:none;text-align:center}
+.monthly-plan-card__cta:hover{filter:brightness(.94)}
+.monthly-plan-comparison__note{margin:14px 0 0;padding:10px 12px;border-radius:6px;background:#f7f7f7;color:#666;font-size:12px;line-height:1.65}
+
+/* 月額専用ページの商品カードも PinkClub-FANZA の基本カード構造へ合わせる */
+.monthly-product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,180px));gap:18px;align-items:start;justify-content:start}
+.monthly-base-card{width:180px;min-width:180px;max-width:180px;box-sizing:border-box}
+.monthly-base-card .thumb{display:block;width:180px;max-width:180px;height:auto;object-fit:contain;background:#fff}
+.monthly-base-card .rail-card__noimage{width:180px;height:180px;display:flex;align-items:center;justify-content:center;background:#f2f2f2;color:#888}
+.monthly-base-card__release{display:block;width:100%;padding:12px 10px;text-align:center;color:#000;background:transparent;border:1px solid #000;border-radius:4px;font-size:14px;font-weight:700;box-sizing:border-box}
+
+/* Monthlyではランキング表示を使用しない。既存ページに残る互換マークアップも描画しない。 */
+#access-ranking{display:none!important}
+
+/* ヘッダーとナビを一体化し、白い横ラインを出さない。 */
+.site-nav{border:0!important;background:#000!important}
 .site-nav a{font-weight:700}
 .site-nav a.is-active,.site-nav a:hover{color:var(--pcm-pink-dark)}
 .card,.rail-card{border-color:#ddd;box-shadow:0 2px 10px rgba(0,0,0,.035)}
@@ -61,10 +74,15 @@
 .pcf-btn{background:var(--pcm-pink)!important;border-color:var(--pcm-pink)!important}
 body.pcm-monthly-item .pcf-item-title::after{content:'月額見放題対象';display:inline-block;margin-left:8px;padding:3px 8px;border-radius:999px;background:var(--pcm-soft);color:var(--pcm-pink-dark);font-size:12px;vertical-align:middle}
 
-@media(max-width:1000px){.monthly-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:1000px){
+  .monthly-plan-grid{grid-template-columns:1fr}
+}
 @media(max-width:760px){
-  .monthly-channel-grid{grid-template-columns:1fr}
-  .monthly-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-  .monthly-hero{padding:18px}
-  .monthly-work-card__actions--samples{grid-template-columns:1fr}
+  .monthly-hero,.monthly-home-intro{padding:18px}
+  .monthly-plan-card__body{padding:15px}
+  .monthly-product-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .monthly-base-card{width:100%;min-width:0;max-width:none}
+  .monthly-base-card .thumb{width:100%;max-width:none}
+  .monthly-base-card .rail-card__noimage{width:100%;height:auto;aspect-ratio:1/1}
+  .monthly-plan-card__stats{grid-template-columns:1fr}
 }
