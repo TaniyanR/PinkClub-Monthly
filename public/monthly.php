@@ -5,6 +5,7 @@ declare(strict_types=1);
 require_once __DIR__ . '/_bootstrap.php';
 require_once __DIR__ . '/../lib/repository.php';
 require_once __DIR__ . '/../lib/monthly_channel.php';
+require_once __DIR__ . '/partials/public_ui.php';
 
 $channel = strtolower(trim((string)($_GET['channel'] ?? 'standard')));
 if (!in_array($channel, ['standard', 'deluxe', 'vr'], true)) {
@@ -89,7 +90,7 @@ require __DIR__ . '/partials/header.php';
   <?php elseif ($channel === 'deluxe'): ?>
     <p>見放題ch デラックスの対象作品から探します。通常の見放題chとは分けて、デラックス対象作品だけを確認できます。</p>
   <?php else: ?>
-    <p>VRchの対象作品から探します。VR作品は通常動画とは性質が異なるため、商品カードではサンプル動画を表示しません。</p>
+    <p>VRchの対象作品から探します。VR作品は通常動画とは性質が異なるため、商品カードではサンプル画像だけを表示します。</p>
   <?php endif; ?>
 </section>
 
@@ -99,53 +100,46 @@ require __DIR__ . '/partials/header.php';
 <?php if ($items === []): ?>
   <div class="pcf-empty">このチャンネルの作品データはまだ取得できていません。API設定を保存してからテスト取得または自動取得を実行してください。</div>
 <?php else: ?>
-  <section class="monthly-grid">
+  <section class="monthly-product-grid">
     <?php foreach ($items as $item): ?>
       <?php
       $itemId = (int)($item['id'] ?? 0);
       $contentId = trim((string)($item['content_id'] ?? ''));
       $itemTitle = trim((string)($item['title'] ?? ''));
-      $imageUrl = trim((string)($item['image_large'] ?? ''));
-      if ($imageUrl === '') {
-          $imageUrl = trim((string)($item['image_small'] ?? ''));
-      }
+      $imageUrl = pcf_item_image($item);
       $releaseDate = trim((string)($item['release_date'] ?? ''));
       $itemUrl = public_url('item.php?id=' . $itemId);
       $movieUrl = $channel === 'vr' ? '' : monthly_card_movie_url($item);
       $hasSampleImages = monthly_card_has_sample_images($item);
       $sampleImagesUrl = public_url('sample_images.php?content_id=' . rawurlencode($contentId));
+      $movieClass = $movieUrl !== '' ? 'sample-button sample-button--enabled' : 'sample-button sample-button--disabled';
+      $imageClass = $hasSampleImages ? 'sample-button sample-button--enabled' : 'sample-button sample-button--disabled';
       ?>
-      <article class="monthly-work-card">
-        <a class="monthly-work-card__image" href="<?= e($itemUrl) ?>">
-          <?php if ($imageUrl !== ''): ?>
-            <img src="<?= e($imageUrl) ?>" alt="<?= e($itemTitle) ?>" loading="lazy" decoding="async">
-          <?php else: ?>
-            <span class="monthly-work-card__noimage">画像なし</span>
+      <article class="card rail-card monthly-base-card">
+        <?php if ($imageUrl !== ''): ?>
+          <a href="<?= e($itemUrl) ?>"><img class="thumb" src="<?= e($imageUrl) ?>" alt="<?= e($itemTitle) ?>" loading="lazy" decoding="async"></a>
+        <?php else: ?>
+          <div class="rail-card__noimage">画像なし</div>
+        <?php endif; ?>
+
+        <a class="rail-card__title" href="<?= e($itemUrl) ?>"><?= e($itemTitle) ?></a>
+
+        <div class="sample-buttons">
+          <span class="monthly-base-card__release"><?= $releaseDate !== '' ? '発売日：' . e(format_date($releaseDate)) : '発売日' ?></span>
+
+          <?php if ($channel !== 'vr'): ?>
+            <button type="button" class="<?= e($movieClass) ?> sample-movie-trigger" <?= $movieUrl === '' ? 'disabled' : '' ?> data-movie-url="<?= e($movieUrl) ?>" data-movie-title="<?= e($itemTitle) ?>">サンプル動画</button>
           <?php endif; ?>
-        </a>
-        <div class="monthly-work-card__body">
-          <span class="monthly-badge"><?= e($channelLabel) ?></span>
-          <h3 class="monthly-work-card__title"><a href="<?= e($itemUrl) ?>"><?= e($itemTitle) ?></a></h3>
-          <div class="monthly-release-date"><?= $releaseDate !== '' ? '発売日：' . e(format_date($releaseDate)) : '発売日：未取得' ?></div>
-          <div class="monthly-work-card__actions monthly-work-card__actions--samples">
-            <?php if ($channel !== 'vr'): ?>
-              <?php if ($movieUrl !== ''): ?>
-                <a class="monthly-sample-button" href="<?= e($movieUrl) ?>" target="_blank" rel="noopener noreferrer">サンプル動画</a>
-              <?php else: ?>
-                <span class="monthly-sample-button is-disabled">サンプル動画</span>
-              <?php endif; ?>
-            <?php endif; ?>
-            <?php if ($hasSampleImages && $contentId !== ''): ?>
-              <a class="monthly-sample-button" href="<?= e($sampleImagesUrl) ?>" target="_blank" rel="noopener noreferrer">サンプル画像</a>
-            <?php else: ?>
-              <span class="monthly-sample-button is-disabled">サンプル画像</span>
-            <?php endif; ?>
-          </div>
-          <a class="monthly-cta monthly-cta--detail" href="<?= e($itemUrl) ?>">作品詳細</a>
+
+          <button type="button" class="<?= e($imageClass) ?>" <?= !$hasSampleImages ? 'disabled' : '' ?> onclick="<?= $hasSampleImages && $contentId !== '' ? "window.open('" . e($sampleImagesUrl) . "','_blank','noopener,noreferrer,width=760,height=540');" : 'return false;' ?>">サンプル画像</button>
         </div>
       </article>
     <?php endforeach; ?>
   </section>
+<?php endif; ?>
+
+<?php if ($channel !== 'vr'): ?>
+  <?php pcf_render_sample_movie_modal(); ?>
 <?php endif; ?>
 
 <?php require __DIR__ . '/partials/footer.php'; ?>
