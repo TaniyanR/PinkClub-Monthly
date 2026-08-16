@@ -8,7 +8,6 @@ require_once __DIR__ . '/site_settings.php';
 require_once __DIR__ . '/api_credentials.php';
 require_once __DIR__ . '/config.php';
 
-
 function settings_normalize_token(string $value, string $fallback): string
 {
     $trimmed = trim($value);
@@ -35,7 +34,6 @@ function settings_normalize_site(string $value): string
 
     return 'FANZA';
 }
-
 
 function settings_get(): array
 {
@@ -71,6 +69,18 @@ function settings_get(): array
 function settings_catalog_targets(array $defaults): array
 {
     $configured = $defaults['catalog_targets'] ?? [];
+
+    // Monthly targets can be corrected from the admin Floor sync screen without
+    // editing config/config.php. This is intentionally an override, because
+    // FANZA service/floor codes may differ from the initial assumptions.
+    $overrideJson = trim(site_setting_get('monthly_catalog_targets_json', ''));
+    if ($overrideJson !== '') {
+        $decoded = json_decode($overrideJson, true);
+        if (is_array($decoded) && $decoded !== []) {
+            $configured = $decoded;
+        }
+    }
+
     if (!is_array($configured) || $configured === []) {
         $configured = [[
             'site' => $defaults['site'] ?? 'FANZA',
