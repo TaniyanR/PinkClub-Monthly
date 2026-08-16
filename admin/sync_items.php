@@ -4,31 +4,12 @@ declare(strict_types=1);
 require_once __DIR__ . '/../public/_bootstrap.php';
 auth_require_admin();
 $itemSettings = settings_get();
-$catalogTargets = $itemSettings['catalog_targets'] ?? [];
-if (!is_array($catalogTargets) || $catalogTargets === []) {
-    $catalogTargets = [[
-        'site' => (string)($itemSettings['site'] ?? 'FANZA'),
-        'service' => (string)($itemSettings['service'] ?? 'monthly'),
-        'floor' => (string)($itemSettings['floor'] ?? 'monthly_videoa'),
-        'label' => '商品',
-    ]];
-}
-
-$selectedTargetIndex = max(0, (int)($_POST['target_index'] ?? 0));
-if (!isset($catalogTargets[$selectedTargetIndex])) {
-    $selectedTargetIndex = 0;
-}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     csrf_validate_or_fail(post('_csrf'));
     try {
-        $target = $catalogTargets[$selectedTargetIndex];
-        $siteCode = (string)($target['site'] ?? 'FANZA');
-        $serviceCode = (string)($target['service'] ?? 'monthly');
-        $floorCode = (string)($target['floor'] ?? 'monthly_videoa');
-        $label = trim((string)($target['label'] ?? $floorCode));
-        $count = dmm_sync_service()->syncItems($siteCode, $serviceCode, $floorCode);
-        flash_set('success', $label . " 商品同期: {$count}件");
+        $count = dmm_sync_service()->syncItems((string) post('site_code', (string)$itemSettings['site']), (string) post('service_code', (string)$itemSettings['service']), (string) post('floor_code', (string)$itemSettings['floor']));
+        flash_set('success', "商品同期: {$count}件");
     } catch (Throwable $e) {
         flash_set('error', '商品同期失敗: ' . $e->getMessage());
     }
@@ -41,23 +22,13 @@ require __DIR__ . '/includes/header.php';
 ?>
 <section class="admin-card">
   <h1>Items</h1>
-  <p>月額動画の取得先を選んで手動同期できます。各チャンネルのAPI接続確認にも利用できます。</p>
   <form method="post">
     <?= csrf_input() ?>
-    <label>取得対象
-      <select name="target_index">
-        <?php foreach ($catalogTargets as $index => $target): ?>
-          <?php
-          $targetLabel = trim((string)($target['label'] ?? ''));
-          $targetService = (string)($target['service'] ?? '');
-          $targetFloor = (string)($target['floor'] ?? '');
-          $optionLabel = $targetLabel !== '' ? $targetLabel : $targetFloor;
-          ?>
-          <option value="<?= e((string)$index) ?>" <?= $index === $selectedTargetIndex ? 'selected' : '' ?>>
-            <?= e($optionLabel . ' (' . $targetService . ' / ' . $targetFloor . ')') ?>
-          </option>
-        <?php endforeach; ?>
-      </select>
+    <label>service
+      <input name="service_code" value="<?= e((string)$itemSettings['service']) ?>">
+    </label>
+    <label>floor
+      <input name="floor_code" value="<?= e((string)$itemSettings['floor']) ?>">
     </label>
     <button type="submit">同期</button>
   </form>
