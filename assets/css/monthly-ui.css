@@ -1,0 +1,128 @@
+:root {
+  --monthly-accent: #e91e63;
+  --monthly-accent-dark: #c2185b;
+  --monthly-soft: #fff4f8;
+  --monthly-border: #f1c9d7;
+  --monthly-ink: #242424;
+}
+
+.monthly-hero {
+  margin: 0 0 24px;
+  padding: 28px;
+  border: 1px solid var(--monthly-border);
+  border-radius: 14px;
+  background: linear-gradient(135deg, #fff, var(--monthly-soft));
+}
+
+.monthly-hero__eyebrow {
+  margin: 0 0 6px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--monthly-accent-dark);
+}
+
+.monthly-hero h1 {
+  margin: 0 0 10px;
+  font-size: clamp(26px, 4vw, 42px);
+  line-height: 1.25;
+}
+
+.monthly-hero p {
+  margin: 0;
+  color: #555;
+}
+
+.monthly-channel-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin: 20px 0 28px;
+}
+
+.monthly-channel-card {
+  display: block;
+  padding: 18px;
+  border: 1px solid var(--monthly-border);
+  border-radius: 12px;
+  background: #fff;
+  color: var(--monthly-ink);
+  text-decoration: none;
+  box-shadow: 0 4px 16px rgba(0,0,0,.05);
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+
+.monthly-channel-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(0,0,0,.09);
+}
+
+.monthly-channel-card strong {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--monthly-accent-dark);
+  font-size: 18px;
+}
+
+.monthly-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: var(--monthly-soft);
+  color: var(--monthly-accent-dark);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.monthly-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 10px 18px;
+  border-radius: 8px;
+  background: var(--monthly-accent);
+  color: #fff !important;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.monthly-cta:hover {
+  background: var(--monthly-accent-dark);
+}
+
+.monthly-note {
+  padding: 14px 16px;
+  border-left: 4px solid var(--monthly-accent);
+  background: var(--monthly-soft);
+  color: #555;
+}
+
+.monthly-section-title {
+  margin: 30px 0 14px;
+  font-size: 24px;
+}
+
+.monthly-item-extra {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+@media (max-width: 780px) {
+  .monthly-channel-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .monthly-hero {
+    padding: 20px;
+  }
+
+  .monthly-item-extra {
+    align-items: stretch;
+    flex-direction: column;
+  }
+}
