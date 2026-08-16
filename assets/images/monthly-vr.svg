@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="360" viewBox="0 0 640 360" role="img" aria-labelledby="title desc">
+  <title id="title">VRch</title><desc id="desc">VRch向けのPinkClub Monthlyオリジナル比較ビジュアル</desc>
+  <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fcf0ff"/><stop offset="1" stop-color="#ffffff"/></linearGradient></defs>
+  <rect width="640" height="360" rx="28" fill="url(#g)"/>
+  <circle cx="96" cy="92" r="46" fill="#c22be0" opacity=".12"/>
+  <path d="M58 77h76c11 0 20 9 20 20v27c0 11-9 20-20 20h-24l-13-17h-2l-13 17H58c-11 0-20-9-20-20V97c0-11 9-20 20-20z" fill="#c22be0"/>
+  <circle cx="73" cy="108" r="12" fill="#fff"/><circle cx="119" cy="108" r="12" fill="#fff"/>
+  <text x="180" y="108" font-size="48" font-weight="700" fill="#b71bd6" font-family="Arial,'Noto Sans JP',sans-serif">VRch</text>
+  <text x="58" y="188" font-size="24" font-weight="700" fill="#222" font-family="Arial,'Noto Sans JP',sans-serif">VR作品なら、このチャンネル</text>
+  <text x="58" y="232" font-size="20" fill="#604d66" font-family="Arial,'Noto Sans JP',sans-serif">没入感を重視してVR作品だけを楽しみたい人向け</text>
+  <rect x="58" y="268" width="220" height="54" rx="27" fill="#c22be0"/>
+  <text x="168" y="303" text-anchor="middle" font-size="22" font-weight="700" fill="#fff" font-family="Arial,'Noto Sans JP',sans-serif">VR専用</text>
+</svg>
