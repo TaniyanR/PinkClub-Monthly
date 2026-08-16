@@ -3,7 +3,7 @@
 
   const config = window.PinkClubMonthlyConfig || {};
   const base = String(config.baseUrl || '').replace(/\/$/, '');
-  const publicUrl = (path = '') => `${base}/public/${String(path).replace(/^\//, '')}`;
+  const publicUrl = (path = '') => `${base}/${String(path).replace(/^\//, '')}`;
 
   if (!document.querySelector('link[data-pcm-monthly-ui]')) {
     const link = document.createElement('link');
@@ -50,12 +50,7 @@
       const note = document.createElement('div');
       note.className = 'monthly-note pcm-monthly-explainer';
       note.textContent = 'このサイトは月額見放題作品を探すためのサイトです。料金・キャンペーン・現在の見放題対象状況はリンク先で最終確認してください。';
-      const breadcrumb = body.querySelector('.pcf-breadcrumb');
-      if (breadcrumb && breadcrumb.nextSibling) {
-        breadcrumb.parentNode.insertBefore(note, breadcrumb.nextSibling);
-      } else {
-        body.prepend(note);
-      }
+      body.prepend(note);
     }
 
     document.querySelectorAll('a.pcf-btn').forEach((link) => {
