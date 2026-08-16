@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="360" viewBox="0 0 640 360" role="img" aria-labelledby="title desc">
+  <title id="title">見放題ch デラックス</title><desc id="desc">見放題ch デラックス向けのPinkClub Monthlyオリジナル比較ビジュアル</desc>
+  <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff1f1"/><stop offset="1" stop-color="#ffffff"/></linearGradient></defs>
+  <rect width="640" height="360" rx="28" fill="url(#g)"/>
+  <circle cx="96" cy="92" r="46" fill="#ef2b2d" opacity=".12"/>
+  <path d="M96 54l12 24 27 4-19 19 5 27-25-13-25 13 5-27-19-19 27-4z" fill="#ef2b2d"/>
+  <text x="165" y="92" font-size="38" font-weight="700" fill="#e21d22" font-family="Arial,'Noto Sans JP',sans-serif">見放題ch</text>
+  <text x="165" y="128" font-size="30" font-weight="700" fill="#e21d22" font-family="Arial,'Noto Sans JP',sans-serif">デラックス</text>
+  <text x="58" y="190" font-size="24" font-weight="700" fill="#222" font-family="Arial,'Noto Sans JP',sans-serif">作品数・画質を重視</text>
+  <text x="58" y="232" font-size="20" fill="#665050" font-family="Arial,'Noto Sans JP',sans-serif">4K作品や豊富なラインナップを楽しみたい人向け</text>
+  <rect x="58" y="268" width="250" height="54" rx="27" fill="#ef2b2d"/>
+  <text x="183" y="303" text-anchor="middle" font-size="22" font-weight="700" fill="#fff" font-family="Arial,'Noto Sans JP',sans-serif">プレミアム</text>
+</svg>
