@@ -29,6 +29,21 @@ $perPage = 50;
 $totalRows = 0;
 $totalPages = 1;
 
+$itemSettings = settings_get();
+$catalogTargets = $itemSettings['catalog_targets'] ?? [];
+if (!is_array($catalogTargets) || $catalogTargets === []) {
+    $catalogTargets = [[
+        'site' => (string)($itemSettings['site'] ?? 'FANZA'),
+        'service' => (string)($itemSettings['service'] ?? 'monthly'),
+        'floor' => (string)($itemSettings['floor'] ?? 'monthly_videoa'),
+        'label' => '商品',
+    ]];
+}
+$testTargetIndex = max(0, (int)site_setting_get('item_sync_test_target_index', '0'));
+if (!isset($catalogTargets[$testTargetIndex])) {
+    $testTargetIndex = 0;
+}
+
 $saveTargets = [
     'items' => ['table' => 'items', 'label' => '商品', 'id_column' => 'id', 'name_column' => 'title'],
 ];
@@ -36,11 +51,16 @@ $saveTargets = [
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     csrf_validate_or_fail((string)post('_csrf', ''));
     $action = (string)post('action', 'save');
+    $postedTargetIndex = max(0, (int)post('test_target_index', $testTargetIndex));
+    if (isset($catalogTargets[$postedTargetIndex])) {
+        $testTargetIndex = $postedTargetIndex;
+    }
 
     if ($action === 'save') {
         $apiId = trim((string)post('api_id', ''));
         $affiliateId = trim((string)post('affiliate_id', ''));
         api_credential_set($apiType, $apiId, $affiliateId);
+        site_setting_set('item_sync_test_target_index', (string)$testTargetIndex);
         $message = '設定を保存しました。';
         $messageType = 'success';
     }
@@ -52,9 +72,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             api_credential_set($apiType, $apiId, $affiliateId);
             $sync = dmm_sync_service($apiType);
 
-            $s = settings_get();
+            $target = $catalogTargets[$testTargetIndex];
+            $targetSite = (string)($target['site'] ?? 'FANZA');
+            $targetService = (string)($target['service'] ?? 'monthly');
+            $targetFloor = (string)($target['floor'] ?? 'monthly_videoa');
+            $targetLabel = trim((string)($target['label'] ?? $targetFloor));
+            $testOffsetKey = 'item_sync_test_offset_' . (string)$testTargetIndex;
+
             $beforeCount = (int)db()->query('SELECT COUNT(*) FROM items')->fetchColumn();
-            $testOffset = (int)site_setting_get('item_sync_test_offset', '1');
+            $testOffset = (int)site_setting_get($testOffsetKey, '1');
             if ($testOffset < 1) {
                 $testOffset = 1;
             }
@@ -71,9 +97,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             while ($attempts < 12) {
                 $attempts++;
                 $result = $sync->syncItemsBatch(
-                    (string)$s['site'],
-                    (string)$s['service'],
-                    (string)$s['floor'],
+                    $targetSite,
+                    $targetService,
+                    $targetFloor,
                     10,
                     $nextOffset,
                     ['sort' => $sort]
@@ -89,13 +115,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
             }
             site_setting_set_many([
-                'item_sync_test_offset' => (string)$nextOffset,
+                $testOffsetKey => (string)$nextOffset,
+                'item_sync_test_target_index' => (string)$testTargetIndex,
                 'item_sync_test_sort_index' => (string)($sortIndex + 1),
             ]);
             $inserted = max(0, $afterCount - $beforeCount);
             $updated = max(0, $processed - $inserted);
 
-            $message = '商品情報を10件テスト取得して保存しました。処理件数: ' . (string)$processed
+            $message = $targetLabel . ' の商品情報を10件テスト取得して保存しました。処理件数: ' . (string)$processed
                 . ' / 保存済み合計: ' . (string)$afterCount
                 . ' / 新規追加: ' . (string)$inserted
                 . ' / 更新: ' . (string)$updated
@@ -171,6 +198,23 @@ require __DIR__ . '/includes/header.php';
     <div>
       <label>アフィリエイトID<br><input type="text" name="affiliate_id" value="<?= e($affiliateId) ?>" style="width:100%"></label>
     </div>
+    <div>
+      <label>10件テスト取得の対象<br>
+        <select name="test_target_index" style="width:100%;max-width:520px;">
+          <?php foreach ($catalogTargets as $index => $catalogTarget): ?>
+            <?php
+            $catalogLabel = trim((string)($catalogTarget['label'] ?? ''));
+            $catalogService = (string)($catalogTarget['service'] ?? '');
+            $catalogFloor = (string)($catalogTarget['floor'] ?? '');
+            $catalogOptionLabel = $catalogLabel !== '' ? $catalogLabel : $catalogFloor;
+            ?>
+            <option value="<?= e((string)$index) ?>" <?= $index === $testTargetIndex ? 'selected' : '' ?>>
+              <?= e($catalogOptionLabel . ' (' . $catalogService . ' / ' . $catalogFloor . ')') ?>
+            </option>
+          <?php endforeach; ?>
+        </select>
+      </label>
+    </div>
     <div style="display:flex;gap:8px;flex-wrap:wrap;">
       <button type="submit" name="action" value="save">保存</button>
       <button type="submit" name="action" value="test_save" class="button-secondary"><?= e($testButtonLabel) ?></button>
@@ -196,6 +240,7 @@ require __DIR__ . '/includes/header.php';
               <?= csrf_input() ?>
               <input type="hidden" name="action" value="delete_row">
               <input type="hidden" name="row_id" value="<?= e((string)($row['row_id'] ?? '0')) ?>">
+              <input type="hidden" name="test_target_index" value="<?= e((string)$testTargetIndex) ?>">
               <button type="submit" class="button-secondary">削除</button>
             </form>
           </td>
