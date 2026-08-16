@@ -1,32 +1,118 @@
 <?php
 declare(strict_types=1);
+
+require_once __DIR__ . '/../../lib/monthly_channel.php';
+
+$monthlyHomeChannels = [
+    'standard' => ['label' => '見放題ch', 'items' => []],
+    'deluxe' => ['label' => '見放題ch デラックス', 'items' => []],
+    'vr' => ['label' => 'VRch', 'items' => []],
+];
+
+try {
+    $pdo = db();
+    $sourceWhere = items_product_source_where();
+    $sourceWhereSql = $sourceWhere !== '' ? ' WHERE ' . $sourceWhere : '';
+    $rows = $pdo->query(
+        'SELECT * FROM items' . $sourceWhereSql .
+        ' ORDER BY COALESCE(release_date, updated_at) DESC, updated_at DESC, id DESC LIMIT 600'
+    )->fetchAll(PDO::FETCH_ASSOC) ?: [];
+
+    $seen = ['standard' => [], 'deluxe' => [], 'vr' => []];
+    foreach ($rows as $row) {
+        if (!is_array($row)) {
+            continue;
+        }
+        $key = monthly_item_channel_key($row);
+        if (!isset($monthlyHomeChannels[$key])) {
+            continue;
+        }
+        $contentId = strtolower(trim((string)($row['content_id'] ?? '')));
+        $rowId = (string)($row['id'] ?? '');
+        $dedupeKey = $contentId !== '' ? $contentId : $rowId;
+        if ($dedupeKey !== '' && isset($seen[$key][$dedupeKey])) {
+            continue;
+        }
+        if ($dedupeKey !== '') {
+            $seen[$key][$dedupeKey] = true;
+        }
+        $monthlyHomeChannels[$key]['items'][] = $row;
+        if (
+            count($monthlyHomeChannels['standard']['items']) >= 20
+            && count($monthlyHomeChannels['deluxe']['items']) >= 20
+            && count($monthlyHomeChannels['vr']['items']) >= 20
+        ) {
+            break;
+        }
+    }
+} catch (Throwable $e) {
+    error_log('[home monthly channels] ' . $e->getMessage());
+}
 ?>
-<section id="pcf-recommendations" class="pcf-recommendations" data-endpoint="<?= e(public_url('recommendations.php')) ?>" aria-labelledby="pcf-recommendations-title" hidden>
-  <div class="pcf-recommendations__heading">
-    <div>
-      <h2 id="pcf-recommendations-title">あなたへのおすすめ</h2>
-      <p>最近見た作品の傾向をもとに、このブラウザ内で選んでいます。</p>
-    </div>
-    <button id="pcf-recommendations-hide" class="pcf-recommendations__control" type="button">おすすめを表示しない</button>
-  </div>
-  <div id="pcf-recommendations-list" class="pcf-recommendations__list" aria-live="polite"></div>
-</section>
-<div id="pcf-recommendations-restore" class="pcf-recommendations-restore" hidden>
-  <button id="pcf-recommendations-show" type="button">あなたへのおすすめを表示する</button>
+
+<div id="monthly-home-channel-sections">
+<?php foreach ($monthlyHomeChannels as $channelKey => $channelData): ?>
+  <?php
+  $channelItems = array_slice((array)$channelData['items'], 0, 20);
+  $topItems = array_slice($channelItems, 0, 5);
+  $bottomItems = array_slice($channelItems, 5, 15);
+  $label = (string)$channelData['label'];
+  ?>
+  <?php if ($channelItems !== []): ?>
+    <section class="rail-section only-pc home-feature-section monthly-home-channel" data-monthly-channel="<?= e($channelKey) ?>">
+      <h2><a href="<?= e(public_url('monthly.php?channel=' . rawurlencode($channelKey))) ?>"><?= e($label) ?></a></h2>
+      <div class="rail-row rail-row--210 rail-row--no-scroll rail-row--top-shift rail-row--between-gap">
+        <?php foreach ($topItems as $item) { render_item_card($item, 210, null, false, false); } ?>
+      </div>
+      <?php if ($bottomItems !== []): ?>
+      <div class="rail-row rail-row--200 rail-row--wide-thumb rail-row--bottom-scroll rail-row--bottom-horizontal rail-row--home-taxonomy">
+        <?php foreach ($bottomItems as $item) { render_item_card($item, 200, null, true); } ?>
+      </div>
+      <?php endif; ?>
+    </section>
+
+    <section class="rail-section only-sp monthly-home-channel" data-monthly-channel="<?= e($channelKey) ?>">
+      <h2><a href="<?= e(public_url('monthly.php?channel=' . rawurlencode($channelKey))) ?>"><?= e($label) ?></a></h2>
+      <div class="rail-row rail-row--210 rail-row--no-scroll rail-row--top-shift">
+        <?php foreach ($topItems as $item) { render_item_card($item, 210, null, true, false); } ?>
+      </div>
+    </section>
+  <?php endif; ?>
+<?php endforeach; ?>
 </div>
-<style>
-.pcf-recommendations{margin:18px 0 24px;padding:16px;border:1px solid #ddd;border-radius:8px;background:#fff}
-.pcf-recommendations__heading{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:12px}
-.pcf-recommendations__heading h2{margin:0 0 4px;font-size:22px}
-.pcf-recommendations__heading p{margin:0;color:#666;font-size:12px;line-height:1.5}
-.pcf-recommendations__control,.pcf-recommendations-restore button{border:1px solid #888;border-radius:5px;background:#fff;color:#333;cursor:pointer}
-.pcf-recommendations__control{padding:7px 10px;font-size:12px;white-space:nowrap}
-.pcf-recommendations__list{display:flex;gap:14px;overflow-x:auto;padding:2px 2px 10px;scrollbar-width:thin}
-.pcf-recommendations__card{flex:0 0 180px;min-width:180px}
-.pcf-recommendations__image{display:block;width:180px;height:250px;object-fit:cover;border-radius:6px;background:#eee}
-.pcf-recommendations__title{display:-webkit-box;margin:8px 0 6px;overflow:hidden;color:#1670b7;font-size:14px;font-weight:700;line-height:1.45;text-decoration:none;-webkit-box-orient:vertical;-webkit-line-clamp:3}
-.pcf-recommendations__reason{margin:0;color:#666;font-size:11px;line-height:1.45}
-.pcf-recommendations-restore{margin:10px 0 20px;text-align:right}
-.pcf-recommendations-restore button{padding:6px 9px;font-size:12px}
-@media (max-width:700px){.pcf-recommendations{padding:12px}.pcf-recommendations__heading{display:block}.pcf-recommendations__control{margin-top:9px}.pcf-recommendations__card{flex-basis:150px;min-width:150px}.pcf-recommendations__image{width:150px;height:210px}.pcf-recommendations-restore{text-align:left}}
-</style>
+
+<script>
+(() => {
+  const removeLegacyHomeSections = () => {
+    const legacyTitles = new Set(['新作作品', '新着作品', 'ピックアップ']);
+    document.querySelectorAll('.site-main__body > section.rail-section').forEach((section) => {
+      if (section.closest('#monthly-home-channel-sections')) return;
+      const heading = section.querySelector(':scope > h2');
+      if (heading && legacyTitles.has((heading.textContent || '').trim())) {
+        section.remove();
+      }
+    });
+  };
+
+  const cleanVrCards = () => {
+    document.querySelectorAll('[data-monthly-channel="vr"] .rail-card').forEach((card) => {
+      card.querySelectorAll('button, a, span').forEach((control) => {
+        if ((control.textContent || '').trim() === 'サンプル動画') {
+          control.remove();
+        }
+      });
+    });
+  };
+
+  const run = () => {
+    removeLegacyHomeSections();
+    cleanVrCards();
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', run, { once: true });
+  } else {
+    run();
+  }
+})();
+</script>
