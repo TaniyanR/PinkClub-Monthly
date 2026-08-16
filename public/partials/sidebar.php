@@ -178,6 +178,12 @@ if ($fixedPages === []) {
     </section>
     <?php endif; ?>
 
+    <?php if ($canRenderAd && (!function_exists('should_show_ad') || should_show_ad('content_bottom', $pageType, 'pc'))): ?>
+    <section class="sidebar-block sidebar-block--ad2 only-pc">
+        <div class="site-ad site-ad--rectangle"><?php render_ad('content_bottom', $pageType, 'pc'); ?></div>
+    </section>
+    <?php endif; ?>
+
     <section class="sidebar-block">
         <ul class="sidebar-links sidebar-links--pages">
             <?php if ($sitePostCount !== null): ?><li><a style="color:#000;">公開作品数：<strong><?= e(number_format($sitePostCount)) ?></strong></a></li><?php endif; ?>
