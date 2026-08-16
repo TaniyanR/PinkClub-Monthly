@@ -36,7 +36,7 @@ function monthly_item_channel_key(array $item): string
 {
     $parts = [];
     monthly_collect_scalar_text(monthly_item_raw($item), $parts);
-    foreach (['title', 'category_name'] as $key) {
+    foreach (['title', 'category_name', 'service_code', 'floor_code'] as $key) {
         $value = trim((string)($item[$key] ?? ''));
         if ($value !== '') {
             $parts[] = $value;
