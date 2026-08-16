@@ -21,8 +21,6 @@ $menuGroups = [
     ]],
     ['label' => 'API設定', 'children' => [
         ['label' => '商品情報API設定', 'file' => 'api_items.php'],
-        ['label' => '月額Floor設定', 'file' => 'sync_floors.php'],
-        ['label' => '月額API診断', 'file' => 'monthly_api_diagnostics.php'],
         ['label' => '自動設定', 'file' => 'api_auto.php'],
     ]],
     ['label' => 'アクセス解析', 'children' => [
